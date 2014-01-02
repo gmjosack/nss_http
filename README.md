@@ -33,7 +33,7 @@ shadow:         http compat
 
 ## API
 
-By default `nss\_http` expects a server to be listening on `127.0.0.1:9669`. This is compiled in
+By default `nss_http` expects a server to be listening on `127.0.0.1:9669`. This is compiled in
 and can be modified in the nss_http.h file. I have provided an example server in the `examples`
 directory though I'll describe the API below.
 
