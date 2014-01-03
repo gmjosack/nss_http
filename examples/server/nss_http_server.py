@@ -87,7 +87,7 @@ def shadow():
         },
         {
             "sp_namp": "testuser4", "sp_pwdp": "$1$BXZIu72k$S7oxt9hBiBl/O3Rm3H4Q30", "sp_lstchg": 16034,
-            "sp_min": 0, "sp_max": 99999, "sp_warn": 7, "sp_inact": None, "sp_expire": None, "sp_flag": None,
+            "sp_min": 0, "sp_max": 99999, "sp_warn": 7, "sp_inact": 10, "sp_expire": 50, "sp_flag": None,
         },
     ]
 
