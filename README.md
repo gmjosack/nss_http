@@ -110,3 +110,13 @@ See `man 3 getspent` for more information about the shadow struct.
 The shadow endpoint should expect to receive a query parameter of `name`,
 containing a username. If this query parameter is received, a single object
  should be returned for the requested username.
+
+## Sources
+
+There were a lot of sources involved with completion of this project but the major
+ones were the following:
+
+ * http://www.gnu.org/software/libc/manual/html_node/Name-Service-Switch.html
+ * https://code.google.com/p/nsscache/
+ * https://github.com/akheron/jansson/
+ * http://curl.haxx.se/libcurl/c/

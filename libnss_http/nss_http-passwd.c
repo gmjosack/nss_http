@@ -1,11 +1,17 @@
 #include "nss_http.h"
 
+static pthread_mutex_t NSS_HTTP_MUTEX = PTHREAD_MUTEX_INITIALIZER;
+#define NSS_HTTP_LOCK()    do { pthread_mutex_lock(&NSS_HTTP_MUTEX); } while (0)
+#define NSS_HTTP_UNLOCK()  do { pthread_mutex_unlock(&NSS_HTTP_MUTEX); } while (0)
+
 
 // Called to open the passwd file
 enum nss_status
 _nss_http_setpwent(int stayopen)
 {
+    NSS_HTTP_LOCK();
     nss_http_request("Testing");
+    NSS_HTTP_UNLOCK();
     return NSS_STATUS_SUCCESS;
 }
 

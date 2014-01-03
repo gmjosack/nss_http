@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wstrict-prototypes -Werror -fPIC -ljansson -lcurl
+CFLAGS=-Wall -Wstrict-prototypes -Werror -fPIC -std=c99
 
 LD_SONAME=-Wl,-soname,libnss_http.so.2
 LIBRARY=libnss_http.so.2.0
@@ -34,7 +34,8 @@ nss_http: nss_http_build_dir nss_http_services
 		$(BUILD)/nss_http.o \
 		$(BUILD)/nss_http-passwd.o \
 		$(BUILD)/nss_http-group.o \
-		$(BUILD)/nss_http-shadow.o
+		$(BUILD)/nss_http-shadow.o \
+        -lcurl -ljansson
 
 clean:
 	rm -rf $(BUILD)
