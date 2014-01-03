@@ -3,10 +3,10 @@
 ## Description
 
 This is a simple Name Service Switch module that I wrote in order to quickly
-extend nss via an HTTP server that runs on localhost. _This is seriously not
+extend nss via an HTTP server that runs on localhost. __This is seriously not
 meant to be used in a production environment. Not only is it inefficient but
 I'm extremely rusty with C and there are likely overflow errors and other
-security problems. Use at your own enjoyment._
+security problems. Use at your own enjoyment.__
 
 ## Installation
 
