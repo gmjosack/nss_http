@@ -11,7 +11,7 @@ def passwd():
     data = [
         {
             "pw_name": "testuser1", "pw_passwd": "x", "pw_uid": 6000, "pw_gid": 6000,
-            "pw_gecos": None, "pw_dir": "/home/testuser1", "pw_shell": "/bin/bash",
+            "pw_gecos": "Testing", "pw_dir": "/home/testuser1", "pw_shell": "/bin/bash",
         },
         {
             "pw_name": "testuser2", "pw_passwd": "x", "pw_uid": 6001, "pw_gid": 6000,
