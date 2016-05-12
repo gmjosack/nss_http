@@ -7,7 +7,7 @@ LINKS=libnss_http.so.2 libnss_http.so
 
 DESTDIR=/
 PREFIX=$(DESTDIR)usr
-LIBDIR=$(PREFIX)/lib
+LIBDIR=$(PREFIX)/lib64
 BUILD=.libs
 
 default: build
