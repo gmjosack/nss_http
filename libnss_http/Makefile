@@ -1,12 +1,12 @@
 CC=gcc
-CFLAGS=-Wall -Wstrict-prototypes -Werror -fPIC -std=c99
+CFLAGS=-Wall -Wstrict-prototypes -Werror -fPIC -std=c99 -m64
 
 LD_SONAME=-Wl,-soname,libnss_http.so.2
 LIBRARY=libnss_http.so.2.0
 LINKS=libnss_http.so.2 libnss_http.so
 
 DESTDIR=/
-PREFIX=$(DESTDIR)/usr
+PREFIX=$(DESTDIR)usr
 LIBDIR=$(PREFIX)/lib
 BUILD=.libs
 

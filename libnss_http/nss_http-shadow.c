@@ -13,7 +13,7 @@ static int ent_json_idx = 0;
 static int
 pack_shadow_struct(json_t *root, struct spwd *result, char *buffer, size_t buflen)
 {
-
+    nss_log("start func pack_shadow_struct");
     char *next_buf = buffer;
     size_t bufleft = buflen;
 
