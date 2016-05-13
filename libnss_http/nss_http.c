@@ -14,12 +14,11 @@ j_strlen(json_t *str)
     return strlen(json_string_value(str));
 }
 
-
+//unknow
 static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 {
     struct response *result = (struct response *)stream;
     size_t required_len = result->pos + size * nmemb;
-    nss_log("start write_response");
     if(required_len >= NSS_HTTP_INITIAL_BUFFER_SIZE - 1)
     {
         if (required_len < NSS_HTTP_MAX_BUFFER_SIZE)
@@ -31,7 +30,6 @@ static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
             }
         } else {
             // Request data is too large.
-            nss_log("Request data is too large");
             return 0;
         }
     }
@@ -43,6 +41,7 @@ static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 }
 
 
+//
 char *
 nss_http_request(const char *url)
 {
@@ -84,7 +83,6 @@ nss_http_request(const char *url)
     return data;
 
 error:
-    nss_log("write_response occured error");
     if(data)
         free(data);
     if(curl)
@@ -95,13 +93,3 @@ error:
 
     return NULL;
 }
-
-/*my log function*/
-void nss_log(const char *log)
-{
-    openlog("alexlog", LOG_PID|LOG_CONS, LOG_USER);
-    syslog(LOG_INFO, log);
-    closelog();
-}
-
-

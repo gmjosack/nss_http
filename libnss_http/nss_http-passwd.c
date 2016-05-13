@@ -13,7 +13,6 @@ static int ent_json_idx = 0;
 static int
 pack_passwd_struct(json_t *root, struct passwd *result, char *buffer, size_t buflen)
 {
-    nss_log("start func pack_passwd_struct");
     char *next_buf = buffer;
     size_t bufleft = buflen;
 

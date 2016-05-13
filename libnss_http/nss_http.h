@@ -12,8 +12,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
-#include <syslog.h>
 
 #define NSS_HTTP_SERVER "127.0.0.1"
 #define NSS_HTTP_PORT "9669"
@@ -22,6 +20,5 @@
 
 extern char *nss_http_request(const char *);
 extern size_t j_strlen(json_t *);
-extern void nss_log(const char *log);
 
 #endif /* NSS_HTTP_H */
