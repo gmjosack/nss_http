@@ -5,9 +5,7 @@ LD_SONAME=-Wl,-soname,libnss_http.so.2
 LIBRARY=libnss_http.so.2.0
 LINKS=libnss_http.so.2 libnss_http.so
 
-DESTDIR=/
-PREFIX=$(DESTDIR)usr
-LIBDIR=$(PREFIX)/lib64
+LIBDIR=/lib64
 BUILD=.libs
 
 default: build
