@@ -19,9 +19,8 @@ struct host
     char ip[128];
 };
 
-struct config readconfig(char *filename)
+void readconfig(struct config *configstruct, char *filename)
 {
-        struct config configstruct;
         FILE *file = fopen (filename, "r");
 
         if (file != NULL)
@@ -43,23 +42,21 @@ struct config readconfig(char *filename)
 
                     if  (strcmp(part, "HTTPSERVER") == 0)
                     {
-                        memcpy(configstruct.httpserver,cfline,strlen(cfline));
+                        memcpy(configstruct->httpserver,cfline,strlen(cfline));
                     }
                     else if (strcmp(part, "PORT") == 0)
                     {
-                        memcpy(configstruct.port,cfline,strlen(cfline));
+                        memcpy(configstruct->port,cfline,strlen(cfline));
                     }
                     else if (strcmp(part, "DEBUG") == 0)
                     {
-                        memcpy(configstruct.debug,cfline,strlen(cfline));
+                        memcpy(configstruct->debug,cfline,strlen(cfline));
                     }
                 }
                 fclose(file);
         }
         else
             fprintf(stderr, "读取配置文件失败!");
-
-        return configstruct;
 }
 
 /*Network part*/
@@ -86,22 +83,25 @@ void networks(struct host *hosts)
     int fd;
     struct ifreq ifr;
     fd = socket(AF_INET, SOCK_DGRAM, 0);
-    /* I want to get an IPv4 IP address */
     ifr.ifr_addr.sa_family = AF_INET;
-    /* I want IP address attached to "eth0" */
     strncpy(ifr.ifr_name, interface, IFNAMSIZ-1);
     ioctl(fd, SIOCGIFADDR, &ifr);
     close(fd);
-    /* display result */
     snprintf(hosts->ip, 128, inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr));
-
 }
 
 
 void genurl(char* url, const char *type, const char *key)
 {
-    struct config con = readconfig(CONFIG_FILE);
+    struct config con;
     struct host hosts;
+    // fix httpser & port wrong result
+    memset(con.httpserver, '\0', sizeof(con.httpserver));
+    memset(con.port, '\0', sizeof(con.port));
+    memset(con.debug, '\0', sizeof(con.debug));
+
+    readconfig(&con, CONFIG_FILE);
+    memset(hosts, '\0', sizeof(hosts));
     networks(&hosts);
 
     if (strlen(key) == 0){
@@ -114,7 +114,12 @@ void genurl(char* url, const char *type, const char *key)
 
 void debug_print(const char *func)
 {
-    struct config mycon = readconfig(CONFIG_FILE);
-    if (strcmp("true", mycon.debug) == 0)
+    struct config con;
+    memset(con.httpserver, '\0', sizeof(con.httpserver));
+    memset(con.port, '\0', sizeof(con.port));
+    memset(con.debug, '\0', sizeof(con.debug));
+
+    readconfig(&con, CONFIG_FILE);
+    if (strcmp("true", con.debug) == 0)
         fprintf(stderr, "NSS DEBUG: Called %s \n", func);
 }

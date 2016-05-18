@@ -78,8 +78,6 @@ _nss_http_setgrent_locked(int stayopen)
     //generator url
     genurl(url, "group", "");
 
-//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group");
-
     char *response = nss_http_request(url);
     if (!response) {
         return NSS_STATUS_UNAVAIL;
@@ -202,8 +200,6 @@ _nss_http_getgrgid_r_locked(gid_t gid, struct group *result, char *buffer, size_
     sprintf(key, "gid=%d", gid);
     genurl(url, "group", key);
 
-//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group?gid=%d", gid);
-
     char *response = nss_http_request(url);
     if (!response) {
         *errnop = ENOENT;
@@ -256,7 +252,6 @@ _nss_http_getgrnam_r_locked(const char *name, struct group *result, char *buffer
     json_t *json_root;
     json_error_t json_error;
 
-//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group?name=%s", name);
     char key[128];
     sprintf(key, "name=%s", name);
     genurl(url, "group", key);
