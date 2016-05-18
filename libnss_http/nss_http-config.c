@@ -103,9 +103,6 @@ void genurl(char* url, const char *type, const char *key)
     struct config con = readconfig(CONFIG_FILE);
     struct host hosts;
     networks(&hosts);
-    char hostname[512];
-    char ip[128];
-    gethostname(hostname, 512);
 
     if (strlen(key) == 0){
         snprintf(url, 512, "http://%s:%s/%s?uid=%d&ip=%s&hostname=%s", con.httpserver, con.port, type,getuid(), hosts.ip, hosts.hostname);
@@ -121,14 +118,3 @@ void debug_print(const char *func)
     if (strcmp("true", mycon.debug) == 0)
         fprintf(stderr, "NSS DEBUG: Called %s \n", func);
 }
-
-//
-//int main(int argc, char **argv)
-//{
-//        struct config configstruct;
-//        char url[512];
-//        genurl(url, "passwd", "");
-//        printf("%s\n", url);
-//
-//        return 0;
-//}

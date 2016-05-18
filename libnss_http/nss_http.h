@@ -1,6 +1,9 @@
 #ifndef NSS_HTTP_H
 #define NSS_HTTP_H
 
+//gethostname not work fine on c99 mode
+#define _BSD_SOURCE
+
 #include <curl/curl.h>
 #include <errno.h>
 #include <grp.h>
