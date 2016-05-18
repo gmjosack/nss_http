@@ -77,7 +77,9 @@ _nss_http_setspent_locked(int stayopen)
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/shadow");
+
+    genurl(url, "shadow", "");
+//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/shadow");
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -196,7 +198,10 @@ _nss_http_getspnam_r_locked(const char *name, struct spwd *result, char *buffer,
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/shadow?name=%s", name);
+    char key[128];
+    sprintf(key, "name=%s", name);
+    genurl(url, "shadow", key);
+//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/shadow?name=%s", name);
 
     char *response = nss_http_request(url);
     if (!response) {

@@ -34,6 +34,7 @@ extern char *nss_http_request(const char *);
 extern size_t j_strlen(json_t *);
 extern struct config get_config(char *filename);
 extern void debug_print(const char *func);
+extern void genurl(char* url, const char *type, const char *key);
 
 
 #endif /* NSS_HTTP_H */

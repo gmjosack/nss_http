@@ -85,7 +85,9 @@ _nss_http_setpwent_locked(int stayopen)
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd");
+    genurl(url, "passwd", "");
+
+//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd");
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -205,7 +207,10 @@ _nss_http_getpwuid_r_locked(uid_t uid, struct passwd *result, char *buffer, size
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd?uid=%d", uid);
+    char key[128];
+    sprintf(key, "uid=%d", uid);
+    genurl(url, "passwd", key);
+//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd?uid=%d", uid);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -259,7 +264,10 @@ _nss_http_getpwnam_r_locked(const char *name, struct passwd *result, char *buffe
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd?name=%s", name);
+     char key[128];
+    sprintf(key, "name=%s", name);
+    genurl(url, "passwd", key);
+//    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd?name=%s", name);
 
     char *response = nss_http_request(url);
     if (!response) {
