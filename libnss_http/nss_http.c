@@ -42,6 +42,13 @@ static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 }
 
 
+long gettimeout()
+{
+        struct config con;
+        readconfig(&con, CONFIG_FILE);
+        return con.timeout;
+}
+
 //
 char *
 nss_http_request(const char *url)
@@ -65,8 +72,9 @@ nss_http_request(const char *url)
     curl_easy_setopt(curl, CURLOPT_URL, url);
 
     headers = curl_slist_append(headers, "User-Agent: NSS-HTTP");
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, gettimeout());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_response);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &write_result);
 

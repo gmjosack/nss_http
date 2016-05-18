@@ -10,6 +10,7 @@ struct config
    char httpserver[MAXBUF];
    char port[MAXBUF];
    char debug[MAXBUF];
+   long timeout;
 };
 
 /* define ip and hostname struct*/
@@ -21,6 +22,11 @@ struct host
 
 void readconfig(struct config *configstruct, char *filename)
 {
+        // fix httpser & port wrong result
+        memset(configstruct->httpserver, '\0', sizeof(configstruct->httpserver));
+        memset(configstruct->port, '\0', sizeof(configstruct->port));
+        memset(configstruct->debug, '\0', sizeof(configstruct->debug));
+        memset(configstruct->timeout,'\0', sizeof(configstruct->timeout));
         FILE *file = fopen (filename, "r");
 
         if (file != NULL)
@@ -52,6 +58,13 @@ void readconfig(struct config *configstruct, char *filename)
                     {
                         memcpy(configstruct->debug,cfline,strlen(cfline));
                     }
+                    else if (strcmp(part, "TIMEOUT") == 0)
+                    {
+                        char *e;
+                        errno=0;
+                        // force convert string to long number
+                        configstruct->timeout = strtoll(cfline, &e, 0);
+                    }
                 }
                 fclose(file);
         }
@@ -62,6 +75,8 @@ void readconfig(struct config *configstruct, char *filename)
 /*Network part*/
 void networks(struct host *hosts)
 {
+    memset(hosts->ip, '\0', sizeof(hosts->ip));
+    memset(hosts->hostname, '\0', sizeof(hosts->hostname));
     //get hostname
     gethostname(hosts->hostname, 128);
 
@@ -95,16 +110,8 @@ void genurl(char* url, const char *type, const char *key)
 {
     struct config con;
     struct host hosts;
-    // fix httpser & port wrong result
-    memset(con.httpserver, '\0', sizeof(con.httpserver));
-    memset(con.port, '\0', sizeof(con.port));
-    memset(con.debug, '\0', sizeof(con.debug));
-
     readconfig(&con, CONFIG_FILE);
-    memset(hosts.ip, '\0', sizeof(hosts.ip));
-    memset(hosts.hostname, '\0', sizeof(hosts.hostname));
     networks(&hosts);
-
     if (strlen(key) == 0){
         snprintf(url, 512, "http://%s:%s/%s?userid=%d&ip=%s&hostname=%s", con.httpserver, con.port, type,getuid(), hosts.ip, hosts.hostname);
     }
@@ -116,10 +123,6 @@ void genurl(char* url, const char *type, const char *key)
 void debug_print(const char *func)
 {
     struct config con;
-    memset(con.httpserver, '\0', sizeof(con.httpserver));
-    memset(con.port, '\0', sizeof(con.port));
-    memset(con.debug, '\0', sizeof(con.debug));
-
     readconfig(&con, CONFIG_FILE);
     if (strcmp("true", con.debug) == 0)
         fprintf(stderr, "NSS DEBUG: Called %s \n", func);
