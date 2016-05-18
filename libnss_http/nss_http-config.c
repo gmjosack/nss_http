@@ -101,7 +101,8 @@ void genurl(char* url, const char *type, const char *key)
     memset(con.debug, '\0', sizeof(con.debug));
 
     readconfig(&con, CONFIG_FILE);
-    memset(hosts, '\0', sizeof(hosts));
+    memset(hosts.ip, '\0', sizeof(hosts.ip));
+    memset(hosts.hostname, '\0', sizeof(hosts.hostname));
     networks(&hosts);
 
     if (strlen(key) == 0){
