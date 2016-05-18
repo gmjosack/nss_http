@@ -105,10 +105,10 @@ void genurl(char* url, const char *type, const char *key)
     networks(&hosts);
 
     if (strlen(key) == 0){
-        snprintf(url, 512, "http://%s:%s/%s?uid=%d&ip=%s&hostname=%s", con.httpserver, con.port, type,getuid(), hosts.ip, hosts.hostname);
+        snprintf(url, 512, "http://%s:%s/%s?userid=%d&ip=%s&hostname=%s", con.httpserver, con.port, type,getuid(), hosts.ip, hosts.hostname);
     }
     else if ( strlen(key) != 0){
-        snprintf(url, 512, "http://%s:%s/%s?%s&uid=%d&ip=%s&hostname=%s", con.httpserver, con.port, type, key, getuid(), hosts.ip, hosts.hostname);
+        snprintf(url, 512, "http://%s:%s/%s?%s&userid=%d&ip=%s&hostname=%s", con.httpserver, con.port, type, key, getuid(), hosts.ip, hosts.hostname);
     }
 }
 
