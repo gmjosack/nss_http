@@ -17,6 +17,7 @@ j_strlen(json_t *str)
 //unknow
 static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 {
+    DEBUG_LOG;
     struct response *result = (struct response *)stream;
     size_t required_len = result->pos + size * nmemb;
     if(required_len >= NSS_HTTP_INITIAL_BUFFER_SIZE - 1)
@@ -45,6 +46,7 @@ static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 char *
 nss_http_request(const char *url)
 {
+    DEBUG_LOG;
     CURL *curl = NULL;
     CURLcode status;
     struct curl_slist *headers = NULL;

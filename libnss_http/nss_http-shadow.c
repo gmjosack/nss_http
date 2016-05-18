@@ -13,6 +13,7 @@ static int ent_json_idx = 0;
 static int
 pack_shadow_struct(json_t *root, struct spwd *result, char *buffer, size_t buflen)
 {
+    DEBUG_LOG;
     char *next_buf = buffer;
     size_t bufleft = buflen;
 
@@ -105,6 +106,7 @@ _nss_http_setspent_locked(int stayopen)
 enum nss_status
 _nss_http_setspent(int stayopen)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_setspent_locked(stayopen);
@@ -129,6 +131,7 @@ _nss_http_endspent_locked(void)
 enum nss_status
 _nss_http_endspent(void)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_endspent_locked();
@@ -177,6 +180,7 @@ _nss_http_getspent_r_locked(struct spwd *result, char *buffer, size_t buflen, in
 enum nss_status
 _nss_http_getspent_r(struct spwd *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getspent_r_locked(result, buffer, buflen, errnop);
@@ -230,6 +234,7 @@ _nss_http_getspnam_r_locked(const char *name, struct spwd *result, char *buffer,
 enum nss_status
 _nss_http_getspnam_r(const char *name, struct spwd *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getspnam_r_locked(name, result, buffer, buflen, errnop);
