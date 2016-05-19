@@ -42,7 +42,7 @@ static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 }
 
 
-long gettimeout()
+long gettimeout(void)
 {
         struct config con;
         readconfig(&con, CONFIG_FILE);
