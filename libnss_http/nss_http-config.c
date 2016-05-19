@@ -1,18 +1,5 @@
 #include "nss_http.h"
 
-//settings
-#define MAXBUF 1024
-#define DELIM "="
-
-// define nss_http.conf key&value model
-struct config
-{
-   char httpserver[MAXBUF];
-   char port[MAXBUF];
-   char debug[MAXBUF];
-   long timeout;
-};
-
 /* define ip and hostname struct*/
 struct host
 {
@@ -26,7 +13,6 @@ void readconfig(struct config *configstruct, char *filename)
         memset(configstruct->httpserver, '\0', sizeof(configstruct->httpserver));
         memset(configstruct->port, '\0', sizeof(configstruct->port));
         memset(configstruct->debug, '\0', sizeof(configstruct->debug));
-        memset(configstruct->timeout,'\0', sizeof(configstruct->timeout));
         FILE *file = fopen (filename, "r");
 
         if (file != NULL)
