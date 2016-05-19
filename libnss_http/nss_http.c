@@ -14,12 +14,12 @@ j_strlen(json_t *str)
     return strlen(json_string_value(str));
 }
 
-
+//unknow
 static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 {
+    DEBUG_LOG;
     struct response *result = (struct response *)stream;
     size_t required_len = result->pos + size * nmemb;
-
     if(required_len >= NSS_HTTP_INITIAL_BUFFER_SIZE - 1)
     {
         if (required_len < NSS_HTTP_MAX_BUFFER_SIZE)
@@ -42,9 +42,18 @@ static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
 }
 
 
+long gettimeout(void)
+{
+        struct config con;
+        readconfig(&con, CONFIG_FILE);
+        return con.timeout;
+}
+
+//
 char *
 nss_http_request(const char *url)
 {
+    DEBUG_LOG;
     CURL *curl = NULL;
     CURLcode status;
     struct curl_slist *headers = NULL;
@@ -63,8 +72,9 @@ nss_http_request(const char *url)
     curl_easy_setopt(curl, CURLOPT_URL, url);
 
     headers = curl_slist_append(headers, "User-Agent: NSS-HTTP");
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, gettimeout());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_response);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &write_result);
 
@@ -93,4 +103,3 @@ error:
 
     return NULL;
 }
-

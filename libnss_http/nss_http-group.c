@@ -13,7 +13,7 @@ static int ent_json_idx = 0;
 static int
 pack_group_struct(json_t *root, struct group *result, char *buffer, size_t buflen)
 {
-
+    DEBUG_LOG;
     char *next_buf = buffer;
     size_t bufleft = buflen;
 
@@ -75,7 +75,8 @@ _nss_http_setgrent_locked(int stayopen)
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group");
+    //generator url
+    genurl(url, "group", "");
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -104,6 +105,7 @@ _nss_http_setgrent_locked(int stayopen)
 enum nss_status
 _nss_http_setgrent(int stayopen)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_setgrent_locked(stayopen);
@@ -128,6 +130,7 @@ _nss_http_endgrent_locked(void)
 enum nss_status
 _nss_http_endgrent(void)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_endgrent_locked();
@@ -176,6 +179,7 @@ _nss_http_getgrent_r_locked(struct group *result, char *buffer, size_t buflen, i
 enum nss_status
 _nss_http_getgrent_r(struct group *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getgrent_r_locked(result, buffer, buflen, errnop);
@@ -192,7 +196,9 @@ _nss_http_getgrgid_r_locked(gid_t gid, struct group *result, char *buffer, size_
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group?gid=%d", gid);
+    char key[128];
+    sprintf(key, "gid=%d", gid);
+    genurl(url, "group", key);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -230,6 +236,7 @@ _nss_http_getgrgid_r_locked(gid_t gid, struct group *result, char *buffer, size_
 enum nss_status
 _nss_http_getgrgid_r(gid_t gid, struct group *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getgrgid_r_locked(gid, result, buffer, buflen, errnop);
@@ -245,7 +252,9 @@ _nss_http_getgrnam_r_locked(const char *name, struct group *result, char *buffer
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/group?name=%s", name);
+    char key[128];
+    sprintf(key, "name=%s", name);
+    genurl(url, "group", key);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -284,6 +293,7 @@ _nss_http_getgrnam_r_locked(const char *name, struct group *result, char *buffer
 enum nss_status
 _nss_http_getgrnam_r(const char *name, struct group *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getgrnam_r_locked(name, result, buffer, buflen, errnop);

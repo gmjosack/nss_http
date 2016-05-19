@@ -13,7 +13,7 @@ static int ent_json_idx = 0;
 static int
 pack_passwd_struct(json_t *root, struct passwd *result, char *buffer, size_t buflen)
 {
-
+    DEBUG_LOG;
     char *next_buf = buffer;
     size_t bufleft = buflen;
 
@@ -85,7 +85,7 @@ _nss_http_setpwent_locked(int stayopen)
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd");
+    genurl(url, "passwd", "");
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -114,6 +114,7 @@ _nss_http_setpwent_locked(int stayopen)
 enum nss_status
 _nss_http_setpwent(int stayopen)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_setpwent_locked(stayopen);
@@ -138,6 +139,7 @@ _nss_http_endpwent_locked(void)
 enum nss_status
 _nss_http_endpwent(void)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_endpwent_locked();
@@ -186,6 +188,7 @@ _nss_http_getpwent_r_locked(struct passwd *result, char *buffer, size_t buflen, 
 enum nss_status
 _nss_http_getpwent_r(struct passwd *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getpwent_r_locked(result, buffer, buflen, errnop);
@@ -202,7 +205,10 @@ _nss_http_getpwuid_r_locked(uid_t uid, struct passwd *result, char *buffer, size
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd?uid=%d", uid);
+    char key[128];
+    sprintf(key, "uid=%d", uid);
+    genurl(url, "passwd", key);
+
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -240,6 +246,7 @@ _nss_http_getpwuid_r_locked(uid_t uid, struct passwd *result, char *buffer, size
 enum nss_status
 _nss_http_getpwuid_r(uid_t uid, struct passwd *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getpwuid_r_locked(uid, result, buffer, buflen, errnop);
@@ -255,7 +262,9 @@ _nss_http_getpwnam_r_locked(const char *name, struct passwd *result, char *buffe
     json_t *json_root;
     json_error_t json_error;
 
-    snprintf(url, 512, "http://" NSS_HTTP_SERVER ":" NSS_HTTP_PORT "/passwd?name=%s", name);
+     char key[128];
+    sprintf(key, "name=%s", name);
+    genurl(url, "passwd", key);
 
     char *response = nss_http_request(url);
     if (!response) {
@@ -293,6 +302,7 @@ _nss_http_getpwnam_r_locked(const char *name, struct passwd *result, char *buffe
 enum nss_status
 _nss_http_getpwnam_r(const char *name, struct passwd *result, char *buffer, size_t buflen, int *errnop)
 {
+    DEBUG_LOG;
     enum nss_status ret;
     NSS_HTTP_LOCK();
     ret = _nss_http_getpwnam_r_locked(name, result, buffer, buflen, errnop);
